@@ -1,6 +1,6 @@
 {
   "name": "create-react-babel",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "bin": "bin.js",
   "main": "init-package-json.js",
   "scripts": {

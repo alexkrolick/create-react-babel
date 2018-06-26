@@ -14,11 +14,19 @@ var EXPECTED = {
   },
   main: 'basic.js',
   scripts: {
+    build: 'babel $npm_package_buildSrcDir -d $npm_package_buildOutDir --presets=react-app/prod',
+    dev: 'babel $npm_package_buildSrcDir -d $npm_package_buildOutDir --watch --presets=react-app/dev',
     test: 'echo "Error: no test specified" && exit 1'
   },
   keywords: [],
   author: 'npmbot <n@p.m> (http://npm.im/)',
-  license: 'WTFPL'
+  license: 'WTFPL',
+  devDependencies: {
+    'babel-cli': '^6',
+    'babel-preset-react-app': '^3'
+  },
+  buildOutDir: 'lib',
+  buildSrcDir: 'src'
 }
 
 test('npm configuration values pulled from environment', function (t) {

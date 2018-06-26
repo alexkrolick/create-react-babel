@@ -7,7 +7,9 @@ var EXPECT = {
     version: '1.2.5',
     description: 'description',
     author: 'npmbot <n@p.m> (http://npm.im)',
-    scripts: { test: 'make test' },
+    scripts: {
+      test: 'make test'
+    },
     main: 'main.js',
     config: { scope: '@foo' },
     package: {}

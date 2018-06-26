@@ -10,7 +10,11 @@ var EXPECT = {
   version: '1.0.0',
   description: '',
   author: '',
-  scripts: { test: 'mocha' },
+  scripts: {
+    build: 'babel $npm_package_buildSrcDir -d $npm_package_buildOutDir --presets=react-app/prod',
+    dev: 'babel $npm_package_buildSrcDir -d $npm_package_buildOutDir --watch --presets=react-app/dev',
+    test: 'mocha'
+  },
   main: 'index.js',
   keywords: [],
   license: 'ISC',
@@ -18,8 +22,12 @@ var EXPECT = {
     'tap': '*'
   },
   devDependencies: {
+    'babel-cli': '^6',
+    'babel-preset-react-app': '^3',
     'mocha': '^1.0.0'
-  }
+  },
+  buildOutDir: 'lib',
+  buildSrcDir: 'src'
 }
 
 var origwd = process.cwd()

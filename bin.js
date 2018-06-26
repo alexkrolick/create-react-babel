@@ -1,6 +1,6 @@
-const init = require("./init-package-json");
+#!/usr/bin/env node
 
-init(
+require("./init-package-json")(
   process.cwd(),
   "",
   {},

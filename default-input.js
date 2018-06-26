@@ -5,17 +5,18 @@ var validateLicense = require('validate-npm-package-license')
 var validateName = require('validate-npm-package-name')
 var npa = require('npm-package-arg')
 var semver = require('semver')
+var template = require('./react-template')
 
 // more popular packages should go here, maybe?
 function isTestPkg (p) {
-  return !!p.match(/^(expresso|mocha|tap|coffee-script|coco|streamline)$/)
+  return !!p.match(/^(expresso|mocha|tap|coffee-script|coco|streamline|jest|enzyme)$/)
 }
 
 function niceName (n) {
   return n.replace(/^node-|[.-]js$/g, '').replace(' ', '-').toLowerCase()
 }
 
-function readDeps (test, excluded) { return function (cb) {
+function readDeps (test, excluded, defaults) { return function (cb) {
   fs.readdir('node_modules', function (er, dir) {
     if (er) return cb()
     var deps = {}
@@ -35,11 +36,12 @@ function readDeps (test, excluded) { return function (cb) {
         if (p._requiredBy) {
           if (!p._requiredBy.some(function (req) { return req === '#USER' })) return next()
         }
-        deps[d] = config.get('save-exact') ? p.version : config.get('save-prefix') + p.version
+        deps[d] = config.get('save-exact') ? p.version : (config.get('save-prefix') || '') + p.version
         return next()
       })
     })
     function next () {
+      Object.assign(deps, defaults)
       if (--n === 0) return cb(null, deps)
     }
   })
@@ -146,14 +148,13 @@ if (!package.dependencies) {
   exports.dependencies = readDeps(false, package.devDependencies || {})
 }
 
-if (!package.devDependencies) {
-  exports.devDependencies = readDeps(true, package.dependencies || {})
-}
+exports.devDependencies = 
+  readDeps(true, package.dependencies || {}, template.devDependencies)
 
 // MUST have a test script!
-var s = package.scripts || {}
+var s = package.scripts || template.scripts || {}
 var notest = 'echo "Error: no test specified" && exit 1'
-if (!package.scripts) {
+if (!s.test) {
   exports.scripts = function (cb) {
     fs.readdir(path.join(dirname, 'node_modules'), function (er, d) {
       setupScripts(d || [], cb)
@@ -170,6 +171,7 @@ function setupScripts (d, cb) {
       'tap':'tap test/*.js'
     , 'expresso':'expresso test'
     , 'mocha':'mocha'
+    , 'jest': 'jest'
     }
     var command
     Object.keys(commands).forEach(function (k) {
@@ -242,3 +244,6 @@ exports.license = yes ? license : prompt('license', license, function (data) {
   er.notValid = true
   return er
 })
+
+exports.buildSrcDir = yes ? template.buildSrcDir : prompt('Source directory', template.buildSrcDir)
+exports.buildOutDir = yes ? template.buildOutDir : prompt('Output directory', template.buildOutDir)

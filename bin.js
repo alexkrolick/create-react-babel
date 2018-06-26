@@ -3,9 +3,9 @@
 const init = require("./init-package-json");
 
 const yes =
-  process.execArgv.includes("--yes") || process.execArgv.includes("-y");
+  process.argv.includes("--yes") || process.argv.includes("-y");
 
-init(process.cwd(), "", { yes }, function(err, data) {
+init(process.cwd(), "", { yes: yes }, function(err, data) {
   if (err) {
     console.error(err);
     return;

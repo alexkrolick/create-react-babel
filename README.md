@@ -1,4 +1,14 @@
-# init-package-json
+# create-react-babel
+
+Initialize an NPM project with Babel set up to build React files
+
+```
+npm init react-babel
+```
+
+**Forked from `init-package.json`**
+
+## init-package-json
 
 A node module to get your node module started.
 

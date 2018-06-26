@@ -18,8 +18,8 @@ function niceName (n) {
 
 function readDeps (test, excluded, defaults) { return function (cb) {
   fs.readdir('node_modules', function (er, dir) {
-    if (er) return cb()
-    var deps = {}
+    if (er) return cb(null, defaults)
+    var deps = defaults || {}
     var n = dir.length
     if (n === 0) return cb(null, deps)
     dir.forEach(function (d) {

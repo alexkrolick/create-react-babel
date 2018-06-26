@@ -6,7 +6,7 @@
   "scripts": {
     "prerelease": "npm t",
     "postrelease": "npm publish && git push --follow-tags",
-    "release": "standard-version -s",
+    "release": "standard-version",
     "test": "tap --nyc-arg=--all --coverage test"
   },
   "repository": {

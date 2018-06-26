@@ -4,7 +4,7 @@
 
 Initialize an NPM project with Babel set up to build React files
 
-1. CLI Command
+1. 💻 CLI Command
 
 ```sh
 npm init react-babel # npm 6 and up
@@ -12,9 +12,9 @@ npx create-react-babel # npm 5 and up
 npm install --global create-react-babel # npm 4
 ```
 
-2. Follow prompts
+2. ↳ Follow prompts
 
-3. `package.json` is created:
+3. 🎬 `package.json` is created:
 
 ```
 Is this OK? (yes)

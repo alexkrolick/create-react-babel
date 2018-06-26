@@ -10,7 +10,6 @@ init(process.cwd(), "", { yes: yes }, function(err, data) {
     console.error(err);
     return;
   }
-  console.log(JSON.stringify(data, null, 2));
   console.log("\n\nYour React build system is ready to go!\n\nNow run:\n");
   console.log("  ⚡️ Install dependencies:");
   console.log("     npm install\n");

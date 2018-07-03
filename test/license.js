@@ -4,7 +4,7 @@ var rimraf = require('rimraf')
 var common = require('./lib/common')
 
 test('license', function (t) {
-  init(__dirname, '', {}, function (er, data) {
+  init(__dirname, '', {all: true}, function (er, data) {
     if (er)
       throw er
 
@@ -13,6 +13,7 @@ test('license', function (t) {
       version: '1.0.0',
       description: '',
       scripts: { test: 'echo "Error: no test specified" && exit 1' },
+      dependencies: {},
       license: 'Apache-2.0',
       author: '',
       main: 'basic.js'
@@ -30,8 +31,9 @@ test('license', function (t) {
     '\n',
     '\n',
     '\n',
-    'Apache\n',
     'Apache-2.0\n',
+    '\n',
+    '\n',
     'yes\n'
   ])
 })

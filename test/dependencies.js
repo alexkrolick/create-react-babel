@@ -17,7 +17,7 @@ var EXPECT = {
   },
   main: 'index.js',
   keywords: [],
-  license: 'ISC',
+  license: 'SEE LICENSE IN LICENSE',
   dependencies: {
     'tap': '*'
   },

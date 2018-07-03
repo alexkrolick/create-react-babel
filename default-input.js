@@ -41,7 +41,6 @@ function readDeps (test, excluded, defaults) { return function (cb) {
       })
     })
     function next () {
-      Object.assign(deps, defaults)
       if (--n === 0) return cb(null, deps)
     }
   })
@@ -76,7 +75,7 @@ var version = package.version ||
               config.get('init.version') ||
               config.get('init-version') ||
               '1.0.0'
-exports.version = yes ?
+exports.version = (yes || !all) ?
   version :
   prompt('version', version, function (version) {
     if (semver.valid(version)) return version
@@ -86,7 +85,7 @@ exports.version = yes ?
   })
 
 if (!package.description) {
-  exports.description = yes ? '' : prompt('description')
+  exports.description = (yes || !all) ? '' : prompt('description')
 }
 
 if (!package.main) {
@@ -108,7 +107,7 @@ if (!package.main) {
         f = f[0]
 
       var index = f || 'index.js'
-      return cb(null, yes ? index : prompt('entry point', index))
+      return cb(null, (yes || !all) ? index : prompt('entry point', index))
     })
   }
 }
@@ -126,30 +125,12 @@ if (!package.bin) {
   }
 }
 
-exports.directories = function (cb) {
-  fs.readdir(dirname, function (er, dirs) {
-    if (er) return cb(er)
-    var res = {}
-    dirs.forEach(function (d) {
-      switch (d) {
-        case 'example': case 'examples': return res.example = d
-        case 'test': case 'tests': return res.test = d
-        case 'doc': case 'docs': return res.doc = d
-        case 'man': return res.man = d
-        case 'lib': return res.lib = d
-      }
-    })
-    if (Object.keys(res).length === 0) res = undefined
-    return cb(null, res)
-  })
-}
-
 if (!package.dependencies) {
-  exports.dependencies = readDeps(false, package.devDependencies || {})
+  exports.dependencies = readDeps(false, package.devDependencies || {}, {})
 }
 
 exports.devDependencies = 
-  readDeps(true, package.dependencies || {}, template.devDependencies)
+  readDeps(true, package.dependencies || {}, template.devDependencies || {})
 
 // MUST have a test script!
 var s = package.scripts || template.scripts || {}
@@ -178,7 +159,7 @@ function setupScripts (d, cb) {
       if (d.indexOf(k) !== -1) command = commands[k]
     })
     var ps = 'test command'
-    if (yes) {
+    if (yes || !all) {
       s.test = command || notest
     } else {
       s.test = command ? prompt(ps, command, tx) : prompt(ps, tx)
@@ -191,7 +172,7 @@ if (!package.repository) {
   exports.repository = function (cb) {
     fs.readFile('.git/config', 'utf8', function (er, gconf) {
       if (er || !gconf) {
-        return cb(null, yes ? '' : prompt('git repository'))
+        return cb(null, (yes || !all) ? '' : prompt('git repository'))
       }
       gconf = gconf.split(/\r?\n/)
       var i = gconf.indexOf('[remote "origin"]')
@@ -204,13 +185,13 @@ if (!package.repository) {
       if (u && u.match(/^git@github.com:/))
         u = u.replace(/^git@github.com:/, 'https://github.com/')
 
-      return cb(null, yes ? u : prompt('git repository', u))
+      return cb(null, (yes || !all) ? u : prompt('git repository', u))
     })
   }
 }
 
 if (!package.keywords) {
-  exports.keywords = yes ? '' : prompt('keywords', function (s) {
+  exports.keywords = (yes || !all) ? '' : prompt('keywords', function (s) {
     if (!s) return undefined
     if (Array.isArray(s)) s = s.join(' ')
     if (typeof s !== 'string') return s
@@ -235,8 +216,8 @@ if (!package.author) {
 var license = package.license ||
               config.get('init.license') ||
               config.get('init-license') ||
-              'ISC'
-exports.license = yes ? license : prompt('license', license, function (data) {
+              'SEE LICENSE IN LICENSE'
+exports.license = (yes || !all) ? license : prompt('license', license, function (data) {
   var its = validateLicense(data)
   if (its.validForNewPackages) return data
   var errors = (its.errors || []).concat(its.warnings || [])

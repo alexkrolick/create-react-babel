@@ -7,7 +7,7 @@
     "prerelease": "npm t",
     "postrelease": "npm publish && git push --follow-tags",
     "release": "standard-version",
-    "test": "tap --nyc-arg=--all --coverage test"
+    "test": "tap --nyc-arg=--all --coverage 'test/*.js'"
   },
   "repository": {
     "type": "git",

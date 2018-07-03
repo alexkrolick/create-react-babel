@@ -15,11 +15,17 @@ var read = require('read')
 // readJson.extras(file, data, cb)
 var readJson = require('read-package-json')
 
+// use defaults for everything without prompting?
 function yes (conf) {
   return !!(
     conf.get('yes') || conf.get('y') ||
     conf.get('force') || conf.get('f')
   )
+}
+
+// skip non-React prompts when this is false
+function all (conf) {
+  return !!(conf.get('all') || conf.get('a'))
 }
 
 function init (dir, input, config, cb) {
@@ -43,7 +49,7 @@ function init (dir, input, config, cb) {
   var packageFile = path.resolve(dir, 'package.json')
   input = path.resolve(input)
   var pkg
-  var ctx = { yes: yes(config) }
+  var ctx = { yes: yes(config), all: all(config) }
 
   var es = readJson.extraSet
   readJson.extraSet = es.filter(function (fn) {

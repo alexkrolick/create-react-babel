@@ -9,9 +9,6 @@ var EXPECTED = {
   name: 'test',
   version: '3.1.4',
   description: '',
-  directories: {
-    lib: 'lib'
-  },
   main: 'basic.js',
   scripts: {
     build: 'babel $npm_package_buildSrcDir -d $npm_package_buildOutDir --presets=react-app/prod',
@@ -21,6 +18,7 @@ var EXPECTED = {
   keywords: [],
   author: 'npmbot <n@p.m> (http://npm.im/)',
   license: 'WTFPL',
+  dependencies: {},
   devDependencies: {
     'babel-cli': '^6',
     'babel-preset-react-app': '^3'

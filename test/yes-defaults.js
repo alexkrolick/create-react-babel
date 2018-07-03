@@ -8,9 +8,10 @@ var EXPECT = {
     description: '',
     author: '',
     scripts: { test: 'echo "Error: no test specified" && exit 1' },
+    dependencies: {},
     main: 'basic.js',
     keywords: [],
-    license: 'ISC'
+    license: 'SEE LICENSE IN LICENSE'
 }
 
 tap.test('--yes defaults', function (t) {

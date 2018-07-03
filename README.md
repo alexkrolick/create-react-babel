@@ -52,3 +52,13 @@ Now run:
   🚧 Development build (watcher):
      npm run dev
 ```
+
+---
+
+## Options
+
+```
+--help, -h  print help
+--yes, -y   don't prompt for anything, use defaults
+--all, -a   show prompts for non-React/Babel things like "entry point"
+```
